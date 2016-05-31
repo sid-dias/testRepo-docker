@@ -2,7 +2,7 @@
 
 import requests
 import json
-
+import os
 
 def get_json(url):
     username = 'admin'
@@ -10,6 +10,8 @@ def get_json(url):
     r = requests.get(url, auth=(username, password))
     return r.json()
 
+if not os.path.exists("build-info"):
+    os.makedirs("build-info")
 with open("projectList.txt") as f:
     projName = f.readline()
     data = get_json('http://localhost:8081/artifactory/api/build/%s' % projName)
@@ -21,5 +23,5 @@ with open("projectList.txt") as f:
 
     data = get_json('http://localhost:8081/artifactory/api/build/%s/%s' % (projName, maxBuildNo))
     build_no = data["buildInfo"]["properties"]["buildInfo.env.BUILD_NUMBER"]
-    fd = open("%s_%s.json" % (projName, build_no), "w")
+    fd = open("build-info/%s_%s.json" % (projName, build_no), "w")
     json.dump(data, fd)
