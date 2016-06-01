@@ -1,5 +1,3 @@
-#!/usr/bin/python3
-
 import requests
 import json
 import os
@@ -26,12 +24,12 @@ with open("projectList.txt") as f:
         if obj['uri'][1:] > maxBuildNo:
             maxBuildNo = obj['uri'][1:]
 
-    data = get_json('http://localhost:8081/artifactory/api/build/%s/%s' % (projName, maxBuildNo))
-
-    version_no = data["buildInfo"]["properties"]["buildInfo.env.VERSION_NUMBER"]
+    version_no = data["buildInfo"]["properties"]["buildInfo.env.VERSION_NUMBER"].strip()
     commit_id = data["buildInfo"]["properties"]["buildInfo.env.GIT_COMMIT"]
     mf.write("%s:\nVERSION NUMBER: %s\nGIT COMMIT ID: %s\n" % (projName, version_no, commit_id))
-    fd = open("build-info/%s_%s.json" % (projName,version_no), "w")
+
+    data = get_json('http://localhost:8081/artifactory/api/build/%s/%s' % (projName, maxBuildNo))
+    fd = open("build-info/%s_%s.json" % (projName, version_no), "w")
     json.dump(data, fd)
     fd.close()
 

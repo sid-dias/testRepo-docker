@@ -4,17 +4,37 @@ import json
 import re
 import requests
 import os
+import sys
 
+username = 'admin'
+password = 'benedict'
 
-def get_artifact(repo, projName, build_no, fileName):
-    username = 'admin'
-    password = 'benedict'
-    url = 'http://172.17.0.1:8081/artifactory/%s/%s/%s/%s' % (repo, projName, build_no, fileName)
+def get_artifact(repo, projName, version_no, fileName):
+    url = 'http://172.17.0.1:8081/artifactory/%s/%s/%s/%s' % (repo, projName, version_no, fileName)
     r = requests.get(url, auth=(username, password))
-    if not os.path.exists(""+projName):
-        os.makedirs(""+projName)
+    if not os.path.exists(projName):
+        os.makedirs(projName)
     file = open("%s/%s" % (projName, fileName), "wb")
     file.write(r.content)
+
+version = sys.argv[1]
+url = 'http://172.17.0.1:8081/artifactory/versionInfo/%s/' % version
+r = requests.get(url, auth=(username, password))
+
+listFile = str(r.content,encoding="utf-8")
+fileNames = re.findall(r'\n<a href=\"([^"]*)\"',listFile)
+fileNames = list(filter(lambda x: not (x.endswith("md5") or x.endswith("sha1")), fileNames))
+print(fileNames)
+
+if not os.path.exists("build-info"):
+        os.makedirs("build-info")
+
+for file in fileNames:
+    url = 'http://172.17.0.1:8081/artifactory/versionInfo/%s/%s' %(version,file)
+    r = requests.get(url, auth=(username, password))
+    fd = open("build-info/%s" % file, "wb")
+    fd.write(r.content)
+    fd.close()
 
 for fileName in glob.glob("./build-info/*.json"):
     fd = open(fileName)
