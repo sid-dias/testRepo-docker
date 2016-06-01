@@ -26,7 +26,6 @@ r = requests.get(url, auth=(username, password))
 listFile = str(r.content, encoding="utf-8")
 fileNames = re.findall(r'\n<a href=\"([^"]*)\"', listFile)
 fileNames = list(filter(lambda x: not (x.endswith("md5") or x.endswith("sha1")), fileNames))
-print(fileNames)
 
 if not os.path.exists("build-info"):
     os.makedirs("build-info")

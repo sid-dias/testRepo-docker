@@ -1,5 +1,4 @@
 FROM siddias/java
 
-COPY build-info /opt/test-proj/build-info
+COPY artifacts /opt/test-proj
 
-CMD ["/bin/bash"]
