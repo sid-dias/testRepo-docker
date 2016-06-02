@@ -44,7 +44,7 @@ for fileName in glob.glob("./build-info/*.json"):
     fd = open(fileName)
     jdata = json.load(fd)
 
-    projName = re.search(r'/([a-zA-Z]+)_', fileName).group(1)
+    projName = re.search(r'/([a-zA-Z0-9]+)_', fileName).group(1)
     repo = jdata["buildInfo"]["properties"]["buildInfo.env.REPOSITORY"]
     version_no = jdata["buildInfo"]["properties"]["buildInfo.env.VERSION_NUMBER"]
 
