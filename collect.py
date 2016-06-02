@@ -18,9 +18,11 @@ if not os.path.exists("build-info"):
 mf = open("manifest.txt", "w")
 
 with open("projectList.txt") as f:
-    projName = f.readline()
-    data = get_json('http://localhost:8081/artifactory/api/build/%s' % projName)
+    projNames = f.readlines()
 
+for projName in projNames:
+    projName = projName.strip('\n')
+    data = get_json('http://localhost:8081/artifactory/api/build/%s' % projName)
     maxBuildNo = data['buildsNumbers'][0]['uri'][1:]
     for obj in data['buildsNumbers']:
         if obj['uri'][1:] > maxBuildNo:
@@ -34,6 +36,5 @@ with open("projectList.txt") as f:
     fd = open("build-info/%s_%s.json" % (projName, version_no), "w")
     json.dump(data, fd)
     fd.close()
-
 
 mf.close()
