@@ -22,6 +22,7 @@ with open("projectList.txt") as f:
 
 for projName in projNames:
     projName = projName.strip('\n')
+    print(projName)
     data = get_json('http://localhost:8081/artifactory/api/build/%s' % projName)
     maxBuildNo = data['buildsNumbers'][0]['uri'][1:]
     for obj in data['buildsNumbers']:
