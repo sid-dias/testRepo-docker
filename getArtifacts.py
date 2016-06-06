@@ -11,7 +11,7 @@ password = 'benedict'
 
 
 def get_artifact(repo, projName, version_no, fileName):
-    url = 'http://172.17.0.1:8081/artifactory/%s/%s/%s/%s' % (repo, projName, version_no, fileName)
+    url = 'http://ocalhost:8081/artifactory/%s/%s/%s/%s' % (repo, projName, version_no, fileName)
     r = requests.get(url, auth=(username, password))
     if not os.path.exists("artifacts/"+projName):
         os.makedirs("artifacts/"+projName)
@@ -20,7 +20,7 @@ def get_artifact(repo, projName, version_no, fileName):
 
 
 version = sys.argv[1]
-url = 'http://172.17.0.1:8081/artifactory/versionInfo/%s/' % version
+url = 'http://localhost:8081/artifactory/versionInfo/%s/' % version
 r = requests.get(url, auth=(username, password))
 
 listFile = str(r.content, encoding="utf-8")
