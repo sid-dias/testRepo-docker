@@ -11,7 +11,7 @@ password = 'benedict'
 
 
 def get_artifact(repo, projName, version_no, fileName):
-    url = 'http://ocalhost:8081/artifactory/%s/%s/%s/%s' % (repo, projName, version_no, fileName)
+    url = 'http://localhost:8081/artifactory/%s/%s/%s/%s' % (repo, projName, version_no, fileName)
     r = requests.get(url, auth=(username, password))
     if not os.path.exists("artifacts/"+projName):
         os.makedirs("artifacts/"+projName)
@@ -20,18 +20,18 @@ def get_artifact(repo, projName, version_no, fileName):
 
 
 version = sys.argv[1]
-url = 'http://localhost:8081/artifactory/versionInfo/%s/' % version
+url = 'http://localhost:8081/artifactory/manifest/%s/' % version
 r = requests.get(url, auth=(username, password))
 
 listFile = str(r.content, encoding="utf-8")
 fileNames = re.findall(r'\n<a href=\"([^"]*)\"', listFile)
-fileNames = list(filter(lambda x: not (x.endswith("md5") or x.endswith("sha1")), fileNames))
+fileNames = list(filter(lambda x: not (x.endswith("md5") or x.endswith("sha1") or x.endswith("txt")), fileNames))
 
 if not os.path.exists("build-info"):
     os.makedirs("build-info")
 
 for file in fileNames:
-    url = 'http://172.17.0.1:8081/artifactory/versionInfo/%s/%s' % (version, file)
+    url = 'http://localhost:8081/artifactory/manifest/%s/%s' % (version, file)
     r = requests.get(url, auth=(username, password))
     fd = open("build-info/%s" % file, "wb")
     fd.write(r.content)
@@ -43,8 +43,7 @@ if not os.path.exists("artifacts"):
 for fileName in glob.glob("./build-info/*.json"):
     fd = open(fileName)
     jdata = json.load(fd)
-
-    projName = re.search(r'/([a-zA-Z0-9]+)_', fileName).group(1)
+    projName = re.search(r'/([a-zA-Z0-9-]+)_', fileName).group(1)
     repo = jdata["buildInfo"]["properties"]["buildInfo.env.REPOSITORY"]
     version_no = jdata["buildInfo"]["properties"]["buildInfo.env.VERSION_NUMBER"]
 
