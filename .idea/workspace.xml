@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="6f8ce172-711d-44c4-b663-617a953aa154" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Dockerfile" afterPath="$PROJECT_DIR$/Dockerfile" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="testRepo-docker.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -33,11 +33,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Dockerfile1" pinned="false" current-in-tab="true">
+      <file leaf-file-name="Dockerfile1" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Dockerfile1">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.9142857">
-              <caret line="30" column="0" selection-start-line="30" selection-start-column="0" selection-end-line="30" selection-end-column="0" />
+            <state vertical-scroll-proportion="0.0">
+              <caret line="22" column="33" selection-start-line="22" selection-start-column="33" selection-end-line="22" selection-end-column="33" />
               <folding />
             </state>
           </provider>
@@ -57,8 +57,20 @@
         <entry file="file://$PROJECT_DIR$/getArtifacts.py">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="42" column="49" selection-start-line="42" selection-start-column="49" selection-end-line="42" selection-end-column="49" />
+              <caret line="8" column="0" selection-start-line="8" selection-start-column="0" selection-end-line="9" selection-end-column="21" />
               <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="getInfo.py" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/getInfo.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.85714287">
+              <caret line="20" column="0" selection-start-line="20" selection-start-column="0" selection-end-line="20" selection-end-column="0" />
+              <folding>
+                <element signature="e#0#10#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -97,8 +109,9 @@
         <option value="$PROJECT_DIR$/1.0.3.json" />
         <option value="$PROJECT_DIR$/collect.py" />
         <option value="$PROJECT_DIR$/1.5.json" />
-        <option value="$PROJECT_DIR$/getArtifacts.py" />
         <option value="$PROJECT_DIR$/Dockerfile" />
+        <option value="$PROJECT_DIR$/getArtifacts.py" />
+        <option value="$PROJECT_DIR$/getInfo.py" />
       </list>
     </option>
   </component>
@@ -159,7 +172,7 @@
   <component name="PropertiesComponent">
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
   </component>
-  <component name="RunManager" selected="Python.getArtifacts">
+  <component name="RunManager" selected="Python.getInfo">
     <configuration default="false" name="collect" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -208,6 +221,23 @@
       <module name="testRepo-docker" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/collect.py" />
       <option name="PARAMETERS" value="testRepo1" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <method />
+    </configuration>
+    <configuration default="false" name="getInfo" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="testRepo-docker" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/getInfo.py" />
+      <option name="PARAMETERS" value="1.0" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <method />
     </configuration>
@@ -333,16 +363,18 @@
       <option name="USE_KEYWORD" value="false" />
       <method />
     </configuration>
-    <list size="3">
+    <list size="4">
       <item index="0" class="java.lang.String" itemvalue="Python.collect" />
       <item index="1" class="java.lang.String" itemvalue="Python.getArtifacts" />
       <item index="2" class="java.lang.String" itemvalue="Python.collect (1)" />
+      <item index="3" class="java.lang.String" itemvalue="Python.getInfo" />
     </list>
     <recent_temporary>
-      <list size="3">
-        <item index="0" class="java.lang.String" itemvalue="Python.getArtifacts" />
-        <item index="1" class="java.lang.String" itemvalue="Python.collect (1)" />
-        <item index="2" class="java.lang.String" itemvalue="Python.collect" />
+      <list size="4">
+        <item index="0" class="java.lang.String" itemvalue="Python.getInfo" />
+        <item index="1" class="java.lang.String" itemvalue="Python.getArtifacts" />
+        <item index="2" class="java.lang.String" itemvalue="Python.collect (1)" />
+        <item index="3" class="java.lang.String" itemvalue="Python.collect" />
       </list>
     </recent_temporary>
   </component>
@@ -466,14 +498,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/getArtifacts.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="42" column="49" selection-start-line="42" selection-start-column="49" selection-end-line="42" selection-end-column="49" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/Dockerfile">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.25714287">
@@ -484,9 +508,27 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/Dockerfile1">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.9142857">
-          <caret line="30" column="0" selection-start-line="30" selection-start-column="0" selection-end-line="30" selection-end-column="0" />
+        <state vertical-scroll-proportion="0.0">
+          <caret line="22" column="33" selection-start-line="22" selection-start-column="33" selection-end-line="22" selection-end-column="33" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/getArtifacts.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="8" column="0" selection-start-line="8" selection-start-column="0" selection-end-line="9" selection-end-column="21" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/getInfo.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.85714287">
+          <caret line="20" column="0" selection-start-line="20" selection-start-column="0" selection-end-line="20" selection-end-column="0" />
+          <folding>
+            <element signature="e#0#10#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
