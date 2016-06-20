@@ -9,3 +9,4 @@ for key in json_data:
    info_file.write("%s=%s\n" % (key, json_data[key]))
 
 info_file.close()
+print(json_data["VERSION_NUMBER"])
