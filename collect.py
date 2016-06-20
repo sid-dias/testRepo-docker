@@ -22,8 +22,8 @@ for obj in data['buildsNumbers']:
 
 data = get_json('http://localhost:8081/artifactory/api/build/%s/%s' % (projName, maxBuildNo))
 commit_id = data["buildInfo"]["properties"]["buildInfo.env.GIT_COMMIT"]
-#version_no = data["buildInfo"]["properties"]["buildInfo.env.VERSION_NUMBER"]
+version_no = data["buildInfo"]["properties"]["buildInfo.env.VERSION_NUMBER"]
 
-fd = open("%s.json" %commit_id, "w")
+fd = open("%s.json" %version_no, "w")
 json.dump(data, fd)
 fd.close()
