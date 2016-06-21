@@ -57,4 +57,4 @@ for fileName in glob.glob("./build-info/*.json"):
     for artifact in jdata["buildInfo"]["modules"][0]["artifacts"]:
         get_artifact(repo, projName, version_no, artifact["name"])
 
-    print("Done fetching artifacts of " + projName)
+print(manifest_version)
