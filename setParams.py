@@ -34,5 +34,5 @@ for projName in projNames:
     version_no = data["buildInfo"]["properties"]["buildInfo.env.VERSION_NUMBER"].strip()
     fd.write("%s_version=%s\n" % (projName, version_no))
 
-fd.write("deploy_docker=1")
+fd.write("deploy_docker=true")
 fd.close()
