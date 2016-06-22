@@ -1,5 +1,4 @@
 FROM siddias/java
 
-COPY artifacts /opt/test-proj
+COPY artifacts /opt/infoworks
 
-WORKDIR /opt/test-proj/testRepo
