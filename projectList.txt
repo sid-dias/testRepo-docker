@@ -1,1 +1,3 @@
+testRepo
 testRepo1
+demo-proj
