@@ -1,53 +1,46 @@
-#!/usr/bin/python3
-import glob
-import json
-import re
-import requests
+#!/usr/bin/env python3
+
+"""
+    Python script to collect artifacts from various project's builds
+    depending on the contents of the "manifest file" whose version
+    is specified as a command line argument.
+"""
+
 import os
 import sys
-
-username = 'admin'
-password = 'benedict'
+from credentials import ArtifactUser
 
 
 def get_artifact(repo, projName, version_no, fileName):
-    url = 'http://localhost:8081/artifactory/%s/%s/%s/%s' % (repo, projName, version_no, fileName)
-    r = requests.get(url, auth=(username, password))
-    if not os.path.exists("artifacts/"+projName):
-        os.makedirs("artifacts/"+projName)
-    file = open("artifacts/%s/%s" % (projName, fileName), "wb")
-    file.write(r.content)
+    url = '%s/%s/%s/%s/%s' % (user.artifactory_url, repo, projName, version_no, fileName)
+    response = user.make_request(url)
 
+    bin_file = open("artifacts/%s/%s" % (projName, fileName), "wb")
+    bin_file.write(response.content)
 
+# Command line argument is the version of the "manifest" file
 version = sys.argv[1]
-url = 'http://localhost:8081/artifactory/manifest/%s/' % version
-r = requests.get(url, auth=(username, password))
+user = ArtifactUser()
 
-listFile = str(r.content, encoding="utf-8")
-fileNames = re.findall(r'\n<a href=\"([^"]*)\"', listFile)
-fileNames = list(filter(lambda x: not (x.endswith("md5") or x.endswith("sha1") or x.endswith("txt")), fileNames))
-
-if not os.path.exists("build-info"):
-    os.makedirs("build-info")
-
-for file in fileNames:
-    url = 'http://localhost:8081/artifactory/manifest/%s/%s' % (version, file)
-    r = requests.get(url, auth=(username, password))
-    fd = open("build-info/%s" % file, "wb")
-    fd.write(r.content)
-    fd.close()
+url = '%s/manifest/%s/manifest.txt' % (user.artifactory_url, version)
+response = user.make_request(url)
+manifest_info = str(response.content, encoding="utf-8").split("\n")
 
 if not os.path.exists("artifacts"):
     os.makedirs("artifacts")
 
-for fileName in glob.glob("./build-info/*.json"):
-    fd = open(fileName)
-    jdata = json.load(fd)
-    projName = re.search(r'/([a-zA-Z0-9-]+)_', fileName).group(1)
+for entry in manifest_info[1:]:
+    items = entry.split(" ")
+    url = '%s/versionInfo/%s/%s.json' % (user.artifactory_url, items[0], items[2])
+    response = user.make_request(url)
+
+    jdata = response.json();
     repo = jdata["buildInfo"]["properties"]["buildInfo.env.REPOSITORY"]
-    version_no = jdata["buildInfo"]["properties"]["buildInfo.env.VERSION_NUMBER"]
+
+    if not os.path.exists("artifacts/" + items[0]):
+        os.makedirs("artifacts/" + items[0])
 
     for artifact in jdata["buildInfo"]["modules"][0]["artifacts"]:
-        get_artifact(repo, projName, version_no, artifact["name"])
+        get_artifact(repo, items[0], items[2], artifact["name"])
 
-    print("Done fetching artifacts of " + projName)
+    print("Done fetching artifacts of " + items[0])

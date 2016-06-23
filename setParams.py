@@ -1,38 +1,39 @@
-#!/usr/bin/python3
-import glob
-import json
-import re
-import requests
-import os
-import sys
+#!/usr/bin/env python3
+"""
+    Python script to parse JSON files related to the latest build
+    of a job and extract the versions to ".param" file.
+    It builds the parameter file for the manifest update job's parameters
+"""
+from credentials import ArtifactUser 
 
-username = 'admin'
-password = 'benedict'
+# Project List file contains names of the projects (one per line)
+try:
+    with open("projectList.txt") as f:
+        projNames = f.readlines()
+except IOError:
+    print("Project List File is not found!")
+    raise
 
-def get_json(url):
-    username = 'admin'
-    password = 'benedict'
-    r = requests.get(url, auth=(username, password))
-    return r.json()
+param_file = open(".params", "w")
+user = ArtifactUser()                                                                  
 
+try:
+    for projName in projNames:
+        projName = projName.strip("\n")
+        name = projName + "-integration"
+        build_data = user.make_request('%s/api/build/%s' % (user.artifactory_url, name)).json()
 
-with open("projectList.txt") as f:
-    projNames = f.readlines()
+        maxBuildNo = build_data['buildsNumbers'][0]['uri'][1:]
+        for obj in build_data['buildsNumbers']:
+            if obj['uri'][1:] > maxBuildNo:
+                maxBuildNo = obj['uri'][1:]
 
-fd = open(".params", "w")
+        build_data = user.make_request('%s/api/build/%s/%s' % (user.artifactory_url, name, maxBuildNo)).json()
+        version_no = build_data["buildInfo"]["properties"]["buildInfo.env.VERSION_NUMBER"].strip()
+        param_file.write("%s_version=%s\n" % (projName, version_no))
+except KeyError:
+    print("Invalid JSON file received.")
+    raise
 
-for projName in projNames:
-    projName = projName.strip("\n")
-    name = projName + "-integration"
-    data = get_json('http://localhost:8081/artifactory/api/build/%s' % name)
-    maxBuildNo = data['buildsNumbers'][0]['uri'][1:]
-    for obj in data['buildsNumbers']:
-        if obj['uri'][1:] > maxBuildNo:
-            maxBuildNo = obj['uri'][1:]
-
-    data = get_json('http://localhost:8081/artifactory/api/build/%s/%s' % (name, maxBuildNo))
-    version_no = data["buildInfo"]["properties"]["buildInfo.env.VERSION_NUMBER"].strip()
-    fd.write("%s_version=%s\n" % (projName, version_no))
-
-fd.write("deploy_docker=true")
-fd.close()
+param_file.write("deploy_docker=true")
+param_file.close()

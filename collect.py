@@ -1,29 +1,26 @@
-#!/usr/bin/python3
+#!/usr/bin/env python3
+"""
+    Python script to collect build-info JSON file related to a build corresponding to a job.
+"""
 
-import requests
 import json
 import sys
+from credentials import ArtifactUser
 
-
-def get_json(url):
-    username = 'admin'
-    password = 'benedict'
-    r = requests.get(url, auth=(username, password))
-    return r.json()
-
-
+# Command line argument should be the name of the job
 projName = sys.argv[1]
-data = get_json('http://localhost:8081/artifactory/api/build/%s' % projName)
+user = ArtifactUser()
+
+data = user.make_request('%s/api/build/%s' % (user.artifactory_url, projName)).json()
 maxBuildNo = data['buildsNumbers'][0]['uri'][1:]
 
 for obj in data['buildsNumbers']:
     if int(obj['uri'][1:]) > int(maxBuildNo):
         maxBuildNo = obj['uri'][1:]
 
-data = get_json('http://localhost:8081/artifactory/api/build/%s/%s' % (projName, maxBuildNo))
-commit_id = data["buildInfo"]["properties"]["buildInfo.env.GIT_COMMIT"]
+data = user.make_request('%s/api/build/%s/%s' % (user.artifactory_url, projName, maxBuildNo)).json()
 version_no = data["buildInfo"]["properties"]["buildInfo.env.VERSION_NUMBER"]
 
-fd = open("%s.json" %version_no, "w")
-json.dump(data, fd)
-fd.close()
+json_file = open("%s.json" % version_no, "w")
+json.dump(data, json_file)
+json_file.close()
