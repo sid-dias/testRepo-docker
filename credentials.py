@@ -3,7 +3,6 @@
     from ".config" file and make requests using those credentials.
 """
 
-import re
 import requests
 
 
