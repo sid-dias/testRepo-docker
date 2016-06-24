@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+
 """
     Python script to collect build-info JSON file related to a build corresponding to a job.
 """
@@ -7,7 +8,7 @@ import json
 import sys
 from credentials import ArtifactUser
 
-# Command line argument should be the name of the job
+# Command line argument is the name of the job
 projName = sys.argv[1]
 user = ArtifactUser()
 
